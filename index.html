@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pyodide playground</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.min.css">
+<link rel="stylesheet" href="styles.css">
+
+<script defer src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/python/python.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/addon/edit/closebrackets.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/addon/edit/matchbrackets.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/addon/comment/comment.min.js"></script>
+<script defer src="app.js"></script>
+</head>
+<body>
+  <main id="split">
+    <section class="pane">
+      <div class="bar">
+        <button class="btn primary" id="run" title="Run (Ctrl+Enter)">
+          <svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.78 2L3 2.41v12l.78.42 9-6V8l-9-6zM4 13.48V3.35l7.6 5.07L4 13.48z"/></svg>
+          Run
+        </button>
+        <button class="btn icon" id="restart" title="Restart the interpreter" aria-label="Restart the interpreter">
+          <svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M12.75 8a4.5 4.5 0 01-8.61 1.834l-1.391.565A6.001 6.001 0 0014.25 8 6 6 0 003.5 4.334V2.5H2v4l.75.75h3.5v-1.5H4.352A4.5 4.5 0 0112.75 8z"/></svg>
+        </button>
+        <span class="flex1"></span>
+        <span class="select-wrap">
+          <select class="chip" id="examples" title="Load an example"></select>
+          <svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M7.976 10.072l4.357-4.357.62.618L8.284 11h-.618L3 6.333l.619-.618 4.357 4.357z"/></svg>
+        </span>
+        <button class="btn icon" id="install-open" title="Install packages" aria-label="Install packages">
+          <svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M11.957 6h.05a2.99 2.99 0 012.116.879 3.003 3.003 0 010 4.242 2.99 2.99 0 01-2.117.879v-1a2.002 2.002 0 000-4h-.914l-.123-.857a2.49 2.49 0 00-2.126-2.122A2.478 2.478 0 006.231 5.5l-.333.762-.809-.189A2.49 2.49 0 004.523 6c-.662 0-1.297.263-1.764.732A2.503 2.503 0 004.523 11h.498v1h-.498a3.486 3.486 0 01-2.628-1.16 3.502 3.502 0 011.958-5.78 3.462 3.462 0 011.468.04 3.486 3.486 0 013.657-2.06A3.479 3.479 0 0111.957 6zm-5.25 5.121l1.314 1.314V7h.994v5.4l1.278-1.279.707.707-2.146 2.147h-.708L6 11.829l.707-.708z"/></svg>
+        </button>
+
+        <div class="popover" id="install-pop" hidden>
+          <div class="pop-title">Install packages</div>
+          <div class="pop-row">
+            <input type="text" id="pip-pkg" spellcheck="false" placeholder="numpy, scipy, pillow" autocomplete="off">
+            <button class="btn primary" id="pip-install">Install</button>
+          </div>
+          <div class="pop-foot">
+            <label class="switch">
+              <input type="checkbox" id="autoinstall" checked>
+              auto-install missing imports
+            </label>
+          </div>
+          <div class="pop-hint">
+            Wheels come from the Pyodide CDN, or from PyPI through micropip. They live in this tab only.
+          </div>
+        </div>
+      </div>
+
+      <div class="editor-host" id="editor"></div>
+    </section>
+
+    <div class="divider" id="divider" role="separator" aria-label="Resize panes" tabindex="-1"></div>
+
+    <section class="pane">
+      <div class="bar">
+        <span class="label">output</span>
+        <span class="flex1"></span>
+        <span class="timing" id="timing"></span>
+        <button class="btn icon" id="clear" title="Clear output" aria-label="Clear output">
+          <svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 8.707l3.646 3.647.708-.707L8.707 8l3.647-3.646-.707-.708L8 7.293 4.354 3.646l-.707.708L7.293 8l-3.646 3.646.707.708L8 8.707z"/></svg>
+        </button>
+      </div>
+      <div class="out" id="out">
+        <div id="placeholder">
+          Press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> or Run. The interpreter boots once and stays alive
+          between runs, so variables and imports persist. <code>input()</code> asks through a browser
+          prompt. Drag the divider to resize, double-click it to reset.
+        </div>
+        <div id="terminal"></div>
+        <div class="figs" id="figs"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span id="status"><span class="sq"></span><span id="status-text">idle</span></span>
+    <span class="sep">·</span>
+    <span id="foot-python">python not loaded</span>
+    <span class="sep">·</span>
+    <span id="foot-pyodide">pyodide 0.29.5</span>
+    <span class="flex1"></span>
+    <span class="right">Ctrl+Enter run · Ctrl+/ comment · Tab indent</span>
+  </footer>
+</body>
+</html>
