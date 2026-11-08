@@ -1,32 +1,32 @@
 /* ==================================================================
-   Pyodide Jupyter Notebook — VS Code Dark / Light Modern Theme
+   Pyodide Jupyter Notebook — Modern JupyterLab Theme
    ================================================================== */
 :root {
   --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
-  --sans: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 
-  --page:          #181818;
-  --bg:            #1f1f1f;
-  --bg-card:       #252526;
-  --bg-bar:        #1e1e1e;
-  --bg-input:      #2d2d2d;
-  --bg-hover:      #ffffff12;
-  --border:        #2d2d2d;
-  --border-strong: #3e3e42;
-  --border-cell:   #333333;
-  --fg:            #cccccc;
-  --fg-muted:      #9d9d9d;
-  --fg-dim:        #6e7681;
-  --accent:        #0078d4;
-  --accent-hover:  #0f86e4;
-  --ok:            #3fb950;
-  --err:           #f85149;
-  --warn:          #d29922;
-  --selection:     #264f78;
-  --active-line:   #ffffff0a;
-  --shadow:        0 8px 24px rgba(0, 0, 0, 0.45);
-  --cell-active:   #0078d4;
-  --cell-gutter:   #737373;
+  --jp-layout-color0:      #111111;
+  --jp-layout-color1:      #1e1e1e;
+  --jp-layout-color2:      #252526;
+  --jp-layout-color3:      #2d2d2d;
+  --jp-border-color0:      #2d2d2d;
+  --jp-border-color1:      #3c3c3c;
+  --jp-border-color2:      #4a4a4a;
+  --jp-ui-font-color0:     #e0e0e0;
+  --jp-ui-font-color1:     #cccccc;
+  --jp-ui-font-color2:     #9d9d9d;
+  --jp-ui-font-color3:     #6e7681;
+  --jp-brand-color1:       #2196f3;
+  --jp-brand-color0:       #0d84e4;
+  --jp-warn-color1:        #e69f00;
+  --jp-error-color1:       #f85149;
+  --jp-success-color1:     #3fb950;
+  --jp-cell-active-border: #2196f3;
+  --jp-cell-prompt-in:     #5c6bc0;
+  --jp-cell-prompt-out:    #ff7043;
+  --selection:             #264f78;
+  --active-line:           #ffffff08;
+  --shadow:                0 4px 16px rgba(0, 0, 0, 0.45);
 
   --syn-keyword:   #569cd6;
   --syn-string:    #ce9178;
@@ -42,28 +42,28 @@
 
 @media (prefers-color-scheme: light) {
   :root {
-    --page:          #f3f3f3;
-    --bg:            #ffffff;
-    --bg-card:       #fcfcfc;
-    --bg-bar:        #f8f8f8;
-    --bg-input:      #f0f0f0;
-    --bg-hover:      #0000000a;
-    --border:        #e0e0e0;
-    --border-strong: #d0d0d0;
-    --border-cell:   #e5e5e5;
-    --fg:            #24292f;
-    --fg-muted:      #57606a;
-    --fg-dim:        #8c959f;
-    --accent:        #005fb8;
-    --accent-hover:  #0258a8;
-    --ok:            #1a7f37;
-    --err:           #cf222e;
-    --warn:          #9a6700;
-    --selection:     #add6ff;
-    --active-line:   #00000006;
-    --shadow:        0 8px 24px rgba(0, 0, 0, 0.12);
-    --cell-active:   #005fb8;
-    --cell-gutter:   #6e7781;
+    --jp-layout-color0:      #f5f5f5;
+    --jp-layout-color1:      #ffffff;
+    --jp-layout-color2:      #fafafa;
+    --jp-layout-color3:      #eeeeee;
+    --jp-border-color0:      #e0e0e0;
+    --jp-border-color1:      #d6d6d6;
+    --jp-border-color2:      #cccccc;
+    --jp-ui-font-color0:     #212121;
+    --jp-ui-font-color1:     #424242;
+    --jp-ui-font-color2:     #616161;
+    --jp-ui-font-color3:     #757575;
+    --jp-brand-color1:       #1976d2;
+    --jp-brand-color0:       #1565c0;
+    --jp-warn-color1:        #e65100;
+    --jp-error-color1:       #d32f2f;
+    --jp-success-color1:     #2e7d32;
+    --jp-cell-active-border: #1976d2;
+    --jp-cell-prompt-in:     #303f9f;
+    --jp-cell-prompt-out:    #d84315;
+    --selection:             #add6ff;
+    --active-line:           #00000006;
+    --shadow:                0 4px 16px rgba(0, 0, 0, 0.12);
 
     --syn-keyword:   #0000ff;
     --syn-string:    #a31515;
@@ -82,11 +82,11 @@
 *, *::before, *::after { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; padding: 0; }
 body {
-  background: var(--page);
-  color: var(--fg);
+  background: var(--jp-layout-color0);
+  color: var(--jp-ui-font-color1);
   font: 400 13px/1.5 var(--sans);
   display: grid;
-  grid-template-rows: 44px 1fr 26px;
+  grid-template-rows: 40px 1fr 24px;
   height: 100vh;
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
@@ -95,85 +95,86 @@ body {
 ::selection { background: var(--selection); }
 button, select, input {
   font-family: inherit; font-size: 12px; color: inherit; background: none;
-  border: 0; margin: 0; border-radius: 4px;
+  border: 0; margin: 0; border-radius: 3px;
 }
-:focus-visible { outline: 1px solid var(--accent); outline-offset: -1px; }
+:focus-visible { outline: 1px solid var(--jp-brand-color1); outline-offset: -1px; }
 .flex1 { flex: 1; }
 
-/* Header & Toolbar */
+/* Jupyter Header & Toolbar */
 .nb-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
-  height: 44px;
+  height: 40px;
   padding: 0 14px;
-  background: var(--bg-bar);
-  border-bottom: 1px solid var(--border);
+  background: var(--jp-layout-color1);
+  border-bottom: 1px solid var(--jp-border-color0);
   user-select: none;
 }
 .header-left { display: flex; align-items: center; gap: 10px; }
 .logo { display: flex; align-items: center; }
-.logo-icon { width: 22px; height: 22px; }
+.logo-icon { width: 20px; height: 23px; }
 .title-wrap { position: relative; }
 .title-input {
   font: 600 13px var(--sans);
-  color: var(--fg);
-  padding: 3px 8px;
+  color: var(--jp-ui-font-color0);
+  padding: 3px 6px;
   border: 1px solid transparent;
-  border-radius: 4px;
-  width: 170px;
+  border-radius: 3px;
+  width: 160px;
   transition: all 0.15s ease;
 }
-.title-input:hover { border-color: var(--border-strong); background: var(--bg-input); }
-.title-input:focus { border-color: var(--accent); background: var(--bg-input); outline: none; width: 220px; }
+.title-input:hover { border-color: var(--jp-border-color1); background: var(--jp-layout-color2); }
+.title-input:focus { border-color: var(--jp-brand-color1); background: var(--jp-layout-color2); outline: none; width: 220px; }
 
-.toolbar { display: flex; align-items: center; gap: 4px; position: relative; }
-.btn-group { display: flex; align-items: center; gap: 2px; }
-.sep-v { width: 1px; height: 18px; background: var(--border-strong); margin: 0 6px; }
+.toolbar { display: flex; align-items: center; gap: 3px; position: relative; margin-left: auto; }
+.sep-v { width: 1px; height: 16px; background: var(--jp-border-color1); margin: 0 5px; }
 
+/* Toolbar Buttons */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  height: 26px; padding: 0 9px; cursor: pointer;
-  font: 500 12px var(--sans); color: var(--fg);
-  border: 1px solid transparent; background: transparent; border-radius: 4px;
-  transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 28px; width: 28px; padding: 0; cursor: pointer;
+  color: var(--jp-ui-font-color2); border: 1px solid transparent; background: transparent;
+  border-radius: 3px; transition: all 0.12s ease;
 }
-.btn .i { width: 14px; height: 14px; flex: 0 0 auto; fill: currentColor; }
-.btn:hover { background: var(--bg-hover); border-color: var(--border-strong); }
-.btn:active { background: var(--border-strong); }
-.btn:disabled { opacity: 0.4; cursor: default; background: none; border-color: transparent; }
-.btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); padding: 0 11px; }
-.btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
-.btn.primary:disabled { background: var(--accent); border-color: var(--accent); opacity: 0.45; }
-.btn.icon { width: 26px; padding: 0; color: var(--fg-muted); }
-.btn.icon:hover { color: var(--fg); }
+.btn .i { width: 16px; height: 16px; flex: 0 0 auto; fill: currentColor; }
+.btn:hover { background: var(--jp-layout-color2); color: var(--jp-ui-font-color0); border-color: var(--jp-border-color1); }
+.btn:active { background: var(--jp-border-color0); }
+.btn.primary-run:hover { color: var(--jp-brand-color1); }
 .btn.round-btn {
-  border: 1px solid var(--border-strong); background: var(--bg-card);
-  padding: 4px 14px; font-weight: 500; font-size: 11.5px; border-radius: 14px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  width: auto; height: 26px; border: 1px solid var(--jp-border-color1); background: var(--jp-layout-color1);
+  padding: 0 12px; font-weight: 500; font-size: 11.5px; border-radius: 13px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06); color: var(--jp-ui-font-color1);
 }
-.btn.round-btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.round-btn:hover { border-color: var(--jp-brand-color1); color: var(--jp-brand-color1); }
 
+/* Toolbar Dropdown (JupyterLab style) */
+.jp-toolbar-select {
+  height: 26px; padding: 0 18px 0 8px; font: 400 12px var(--sans);
+  color: var(--jp-ui-font-color0); background: var(--jp-layout-color1);
+  border: 1px solid var(--jp-border-color1); border-radius: 3px; cursor: pointer;
+}
+.jp-toolbar-select:hover { border-color: var(--jp-border-color2); }
+.jp-toolbar-select option { background: var(--jp-layout-color1); color: var(--jp-ui-font-color0); }
 
 /* Main Notebook Canvas */
 .nb-main {
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 20px 16px 80px;
+  padding: 16px 20px 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .nb-canvas {
   width: 100%;
-  max-width: 960px;
+  max-width: 980px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 .nb-bottom-adder {
-  margin-top: 18px;
+  margin-top: 16px;
   display: flex;
   gap: 10px;
   justify-content: center;
@@ -182,36 +183,36 @@ button, select, input {
 /* Notebook Cell */
 .cell {
   position: relative;
-  background: var(--bg);
-  border: 1px solid var(--border-cell);
-  border-left: 3px solid transparent;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  background: var(--jp-layout-color1);
+  border: 1px solid var(--jp-border-color0);
+  border-left: 3.5px solid transparent;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
 }
 .cell:hover {
-  border-color: var(--border-strong);
+  border-color: var(--jp-border-color1);
 }
 .cell.active {
-  border-left-color: var(--cell-active);
-  border-color: var(--border-strong);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+  border-left-color: var(--jp-cell-active-border);
+  border-color: var(--jp-border-color1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 .cell.running {
-  border-left-color: var(--warn);
+  border-left-color: var(--jp-warn-color1);
 }
 
-/* Cell hover toolbar */
+/* Cell Floating Toolbar */
 .cell-toolbar {
   position: absolute;
-  top: -12px;
+  top: -13px;
   right: 12px;
   display: none;
   align-items: center;
   gap: 2px;
   padding: 2px 4px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-strong);
+  background: var(--jp-layout-color2);
+  border: 1px solid var(--jp-border-color1);
   border-radius: 4px;
   box-shadow: var(--shadow);
   z-index: 10;
@@ -220,31 +221,65 @@ button, select, input {
 .cell.active .cell-toolbar {
   display: flex;
 }
-.cell-toolbar .btn {
-  height: 22px; width: 22px; padding: 0; color: var(--fg-muted);
+.cell-toolbar .toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 22px;
+  width: 22px;
+  padding: 0;
+  border-radius: 3px;
+  color: var(--jp-ui-font-color2);
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  transition: all 0.12s ease;
 }
-.cell-toolbar .btn:hover { color: var(--fg); }
-.cell-toolbar .type-select {
-  height: 22px; padding: 0 4px; font-size: 11px;
-  background: transparent; color: var(--fg-muted); cursor: pointer;
+.cell-toolbar .toolbar-btn:hover {
+  background: var(--jp-layout-color3);
+  color: var(--jp-ui-font-color0);
 }
-.cell-toolbar .type-select:hover { color: var(--fg); }
+.cell-toolbar .toolbar-btn.del-btn:hover {
+  color: var(--jp-error-color1);
+}
+.cell-toolbar .toolbar-btn svg {
+  width: 13px;
+  height: 13px;
+  fill: currentColor;
+}
+.cell-toolbar .type-pill {
+  font: 500 11px var(--sans);
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: var(--jp-layout-color1);
+  border: 1px solid var(--jp-border-color1);
+  color: var(--jp-ui-font-color2);
+  cursor: pointer;
+}
+.cell-toolbar .type-pill:hover {
+  color: var(--jp-brand-color1);
+  border-color: var(--jp-brand-color1);
+}
 
-/* Cell Content Row */
+/* Cell Input Row */
 .cell-input-row {
   display: flex;
-  min-height: 36px;
+  min-height: 34px;
 }
 .cell-gutter {
   flex: 0 0 68px;
   padding: 8px 8px 0 0;
   text-align: right;
-  font: 500 11.5px/1.55 var(--mono);
-  color: var(--cell-gutter);
+  font: 500 12px/1.55 var(--mono);
+  color: var(--jp-cell-prompt-in);
   user-select: none;
   cursor: pointer;
+  transition: opacity 0.12s ease;
 }
-.cell.running .cell-gutter { color: var(--warn); }
+.cell-gutter:hover {
+  opacity: 0.75;
+}
+.cell.running .cell-gutter { color: var(--jp-warn-color1); }
 .cell-body {
   flex: 1;
   min-width: 0;
@@ -257,7 +292,7 @@ button, select, input {
 }
 .cell-editor .cm-editor {
   background: transparent;
-  color: var(--fg);
+  color: var(--jp-ui-font-color0);
   font: 400 13px/1.55 var(--mono);
 }
 .cell-editor .cm-scroller {
@@ -266,27 +301,32 @@ button, select, input {
 }
 .cell-editor .cm-content {
   padding: 8px 12px;
-  caret-color: var(--fg);
+  caret-color: var(--jp-brand-color1) !important;
+}
+/* Bright electric blue cursor in both dark and light modes */
+.cell-editor .cm-cursor,
+.cell-editor .cm-dropCursor {
+  border-left: 2px solid var(--jp-brand-color1) !important;
 }
 .cell-editor .cm-line { padding: 0; }
 .cell-editor .cm-gutters {
   background: transparent;
-  color: var(--fg-dim);
+  color: var(--jp-ui-font-color3);
   border: 0;
   padding-right: 6px;
 }
 .cell-editor .cm-gutterElement { padding: 0 6px 0 4px; }
 .cell-editor .cm-activeLine { background: var(--active-line); }
-.cell-editor .cm-activeLineGutter { background: var(--active-line); color: var(--fg-muted); }
+.cell-editor .cm-activeLineGutter { background: var(--active-line); color: var(--jp-ui-font-color2); }
 .cell-editor .cm-selectionBackground,
 .cell-editor ::selection { background: var(--selection) !important; }
-.cell-editor .cm-matchingBracket { color: var(--fg) !important; border-bottom: 1px solid var(--fg-muted); background: transparent; }
-.cell-editor .cm-nonmatchingBracket { color: var(--err) !important; border-bottom: 1px solid var(--err); background: transparent; }
-.cell-editor .cm-foldGutter .cm-gutterElement { cursor: pointer; color: var(--fg-dim); }
-.cell-editor .cm-foldGutter .cm-gutterElement:hover { color: var(--fg); }
+.cell-editor .cm-matchingBracket { color: var(--jp-ui-font-color0) !important; border-bottom: 1px solid var(--jp-ui-font-color2); background: transparent; }
+.cell-editor .cm-nonmatchingBracket { color: var(--jp-error-color1) !important; border-bottom: 1px solid var(--jp-error-color1); background: transparent; }
+.cell-editor .cm-foldGutter .cm-gutterElement { cursor: pointer; color: var(--jp-ui-font-color3); }
+.cell-editor .cm-foldGutter .cm-gutterElement:hover { color: var(--jp-ui-font-color0); }
 .cell-editor .cm-foldPlaceholder {
-  background: var(--bg-hover); border: 1px solid var(--border-strong);
-  color: var(--fg-muted); padding: 0 4px; margin: 0 2px;
+  background: var(--jp-layout-color3); border: 1px solid var(--jp-border-color1);
+  color: var(--jp-ui-font-color2); padding: 0 4px; margin: 0 2px;
 }
 
 /* Markdown Rendered View */
@@ -296,7 +336,7 @@ button, select, input {
   min-height: 34px;
 }
 .cell-markdown-view:hover {
-  background: var(--bg-hover);
+  background: var(--active-line);
 }
 .cell-markdown-view h1, .cell-markdown-view h2, .cell-markdown-view h3,
 .cell-markdown-view h4, .cell-markdown-view h5, .cell-markdown-view h6 {
@@ -304,27 +344,27 @@ button, select, input {
 }
 .cell-markdown-view h1:first-child, .cell-markdown-view h2:first-child,
 .cell-markdown-view h3:first-child { margin-top: 0; }
-.cell-markdown-view h1 { font-size: 1.7em; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
-.cell-markdown-view h2 { font-size: 1.4em; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
-.cell-markdown-view h3 { font-size: 1.2em; }
+.cell-markdown-view h1 { font-size: 1.6em; border-bottom: 1px solid var(--jp-border-color0); padding-bottom: 5px; }
+.cell-markdown-view h2 { font-size: 1.35em; border-bottom: 1px solid var(--jp-border-color0); padding-bottom: 4px; }
+.cell-markdown-view h3 { font-size: 1.15em; }
 .cell-markdown-view p { margin: 8px 0; line-height: 1.6; }
 .cell-markdown-view code {
   font-family: var(--mono); font-size: 0.9em; padding: 2px 6px;
-  background: var(--bg-input); border-radius: 4px; border: 1px solid var(--border-strong);
+  background: var(--jp-layout-color2); border-radius: 3px; border: 1px solid var(--jp-border-color1);
 }
 .cell-markdown-view kbd {
   font-family: var(--mono); font-size: 11px; padding: 2px 6px;
-  background: var(--bg-input); border-radius: 3px; border: 1px solid var(--border-strong);
-  color: var(--fg); box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+  background: var(--jp-layout-color2); border-radius: 3px; border: 1px solid var(--jp-border-color1);
+  color: var(--jp-ui-font-color0); box-shadow: 0 1px 1px rgba(0,0,0,0.15);
 }
 .cell-markdown-view pre {
-  background: var(--bg-input); padding: 10px 14px; border-radius: 6px;
-  border: 1px solid var(--border-strong); overflow-x: auto;
+  background: var(--jp-layout-color2); padding: 10px 14px; border-radius: 4px;
+  border: 1px solid var(--jp-border-color1); overflow-x: auto;
 }
 .cell-markdown-view pre code { background: none; padding: 0; border: none; }
 .cell-markdown-view blockquote {
-  margin: 10px 0; padding: 4px 14px; border-left: 3px solid var(--accent);
-  color: var(--fg-muted); background: var(--bg-hover);
+  margin: 10px 0; padding: 4px 14px; border-left: 3px solid var(--jp-brand-color1);
+  color: var(--jp-ui-font-color2); background: var(--active-line);
 }
 .cell-markdown-view ul, .cell-markdown-view ol { padding-left: 24px; margin: 8px 0; }
 .cell-markdown-view li { margin: 4px 0; }
@@ -332,21 +372,21 @@ button, select, input {
   border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 12.5px;
 }
 .cell-markdown-view th, .cell-markdown-view td {
-  border: 1px solid var(--border-strong); padding: 6px 12px; text-align: left;
+  border: 1px solid var(--jp-border-color1); padding: 6px 12px; text-align: left;
 }
-.cell-markdown-view th { background: var(--bg-input); font-weight: 600; }
+.cell-markdown-view th { background: var(--jp-layout-color2); font-weight: 600; }
 .cell-markdown-view hr {
-  border: 0; border-top: 1px solid var(--border-strong); margin: 16px 0;
+  border: 0; border-top: 1px solid var(--jp-border-color0); margin: 16px 0;
 }
-.cell-markdown-view a { color: var(--accent); text-decoration: none; }
+.cell-markdown-view a { color: var(--jp-brand-color1); text-decoration: none; }
 .cell-markdown-view a:hover { text-decoration: underline; }
 
 /* Cell Output Area */
 .cell-output-area {
-  border-top: 1px solid var(--border);
-  background: var(--bg-card);
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-top: 1px solid var(--jp-border-color0);
+  background: var(--jp-layout-color1);
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
   overflow: hidden;
 }
 .cell-output-row {
@@ -357,8 +397,8 @@ button, select, input {
   flex: 0 0 68px;
   padding: 4px 8px 0 0;
   text-align: right;
-  font: 500 11.5px/1.55 var(--mono);
-  color: var(--warn);
+  font: 500 12px/1.55 var(--mono);
+  color: var(--jp-cell-prompt-out);
   user-select: none;
 }
 .cell-output-content {
@@ -373,10 +413,10 @@ button, select, input {
   white-space: pre-wrap;
   word-break: break-word;
 }
-.output-stream { color: var(--fg); }
-.output-stream.stderr { color: var(--err); }
-.output-result { color: var(--fg); }
-.output-error { color: var(--err); background: rgba(248, 81, 73, 0.08); padding: 6px 10px; border-radius: 4px; }
+.output-stream { color: var(--jp-ui-font-color0); }
+.output-stream.stderr { color: var(--jp-error-color1); }
+.output-result { color: var(--jp-ui-font-color0); }
+.output-error { color: var(--jp-error-color1); background: rgba(248, 81, 73, 0.08); padding: 6px 10px; border-radius: 3px; }
 .output-figures {
   display: flex;
   flex-direction: column;
@@ -387,9 +427,93 @@ button, select, input {
   max-width: 100%;
   height: auto;
   background: #ffffff;
-  padding: 8px;
+  padding: 10px;
   border-radius: 4px;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--jp-border-color1);
+}
+
+/* CodeMirror 6 Autocomplete & Tooltips (Dark & Light) */
+.cm-tooltip,
+body .cm-tooltip {
+  background: var(--jp-layout-color1) !important;
+  color: var(--jp-ui-font-color0) !important;
+  border: 1px solid var(--jp-border-color1) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45) !important;
+  font-family: var(--mono) !important;
+  font-size: 12px !important;
+}
+
+.cm-tooltip.cm-tooltip-autocomplete,
+body .cm-tooltip.cm-tooltip-autocomplete {
+  background: var(--jp-layout-color1) !important;
+  border: 1px solid var(--jp-border-color1) !important;
+}
+
+.cm-tooltip-autocomplete > ul,
+body .cm-tooltip-autocomplete > ul {
+  font-family: var(--mono) !important;
+  font-size: 12px !important;
+  background: var(--jp-layout-color1) !important;
+  color: var(--jp-ui-font-color0) !important;
+  padding: 4px 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  max-height: 220px !important;
+}
+
+.cm-tooltip-autocomplete > ul > li,
+body .cm-tooltip-autocomplete > ul > li {
+  padding: 4px 10px !important;
+  color: var(--jp-ui-font-color1) !important;
+  line-height: 1.4 !important;
+}
+
+.cm-tooltip-autocomplete > ul > li:hover,
+body .cm-tooltip-autocomplete > ul > li:hover {
+  background: var(--jp-layout-color2) !important;
+}
+
+.cm-tooltip-autocomplete > ul > li[aria-selected],
+body .cm-tooltip-autocomplete > ul > li[aria-selected] {
+  background: var(--jp-brand-color1) !important;
+  color: #ffffff !important;
+}
+
+.cm-tooltip-autocomplete .cm-completionMatchedText,
+body .cm-tooltip-autocomplete .cm-completionMatchedText {
+  color: var(--jp-brand-color1) !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+
+.cm-tooltip-autocomplete > ul > li[aria-selected] .cm-completionMatchedText,
+body .cm-tooltip-autocomplete > ul > li[aria-selected] .cm-completionMatchedText {
+  color: #ffffff !important;
+  text-decoration: underline !important;
+}
+
+.cm-tooltip-autocomplete .cm-completionDetail,
+body .cm-tooltip-autocomplete .cm-completionDetail {
+  font-style: italic !important;
+  color: var(--jp-ui-font-color3) !important;
+  margin-left: 8px !important;
+}
+
+.cm-tooltip-autocomplete .cm-completionIcon,
+body .cm-tooltip-autocomplete .cm-completionIcon {
+  width: 14px !important;
+  opacity: 0.8 !important;
+  margin-right: 6px !important;
+}
+
+.cm-tooltip.cm-completionInfo,
+body .cm-tooltip.cm-completionInfo {
+  background: var(--jp-layout-color2) !important;
+  color: var(--jp-ui-font-color0) !important;
+  border: 1px solid var(--jp-border-color1) !important;
+  padding: 6px 10px !important;
+  border-radius: 4px !important;
 }
 
 /* Insert divider between cells */
@@ -413,92 +537,92 @@ button, select, input {
   left: 30px;
   right: 30px;
   height: 1px;
-  background: var(--accent);
+  background: var(--jp-brand-color1);
 }
 .cell-divider-btns {
   position: relative;
   display: flex;
   gap: 6px;
-  background: var(--page);
+  background: var(--jp-layout-color0);
   padding: 0 8px;
 }
 .cell-divider-btn {
   font-size: 10.5px;
   padding: 1px 8px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-strong);
+  background: var(--jp-layout-color1);
+  border: 1px solid var(--jp-border-color1);
   border-radius: 10px;
-  color: var(--fg-muted);
+  color: var(--jp-ui-font-color2);
   cursor: pointer;
 }
 .cell-divider-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--jp-brand-color1);
+  color: var(--jp-brand-color1);
 }
 
 /* Popover */
 .popover {
   position: absolute;
   top: calc(100% + 4px);
-  right: 12px;
+  right: 0;
   z-index: 30;
   width: 320px;
   padding: 14px;
-  background: var(--bg-bar);
-  border: 1px solid var(--border-strong);
+  background: var(--jp-layout-color1);
+  border: 1px solid var(--jp-border-color1);
   box-shadow: var(--shadow);
-  border-radius: 6px;
+  border-radius: 4px;
 }
 .popover[hidden] { display: none; }
-.pop-title { font: 600 12.5px var(--sans); color: var(--fg); margin-bottom: 8px; }
+.pop-title { font: 600 12.5px var(--sans); color: var(--jp-ui-font-color0); margin-bottom: 8px; }
 .pop-row { display: flex; gap: 6px; }
 .pop-row input {
   flex: 1; min-width: 0; height: 28px; padding: 0 8px; font: 400 12px var(--mono);
-  background: var(--bg-input); color: var(--fg); border: 1px solid var(--border-strong);
-  border-radius: 4px;
+  background: var(--jp-layout-color2); color: var(--jp-ui-font-color0); border: 1px solid var(--jp-border-color1);
+  border-radius: 3px;
 }
-.pop-row input:focus { outline: none; border-color: var(--accent); }
+.pop-row input:focus { outline: none; border-color: var(--jp-brand-color1); }
 .pop-foot {
   display: flex; align-items: center; gap: 8px; margin-top: 10px;
-  font: 400 11px var(--sans); color: var(--fg-muted);
+  font: 400 11px var(--sans); color: var(--jp-ui-font-color2);
 }
 .switch { display: inline-flex; align-items: center; gap: 7px; cursor: pointer; user-select: none; }
 .switch input {
   appearance: none; width: 24px; height: 13px; position: relative; cursor: pointer;
-  background: var(--border-strong); border-radius: 7px; transition: background-color 0.15s ease;
+  background: var(--jp-border-color2); border-radius: 7px; transition: background-color 0.15s ease;
 }
 .switch input::after {
   content: ""; position: absolute; top: 2px; left: 2px; width: 9px; height: 9px;
   background: #fff; border-radius: 50%; transition: transform 0.15s ease;
 }
-.switch input:checked { background: var(--accent); }
+.switch input:checked { background: var(--jp-brand-color1); }
 .switch input:checked::after { transform: translateX(11px); }
-.pop-hint { margin-top: 8px; font: 400 11px/1.5 var(--sans); color: var(--fg-dim); }
+.pop-hint { margin-top: 8px; font: 400 11px/1.5 var(--sans); color: var(--jp-ui-font-color3); }
 
-/* Footer */
+/* Footer / Statusbar (VS Code / JupyterLab style) */
 .nb-footer {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 0 14px;
-  background: var(--bg-bar);
-  border-top: 1px solid var(--border);
-  font: 400 11.5px/26px var(--sans);
-  color: var(--fg-muted);
+  padding: 0 12px;
+  background: var(--jp-layout-color1);
+  border-top: 1px solid var(--jp-border-color0);
+  font: 400 11.5px/24px var(--sans);
+  color: var(--jp-ui-font-color2);
   user-select: none;
 }
-.nb-footer .sep { color: var(--border-strong); }
-.nb-footer .shortcuts-hint { color: var(--fg-dim); }
-.nb-footer .status-busy { color: var(--warn); }
-.nb-footer .status-error { color: var(--err); }
-.nb-footer .status-ok { color: var(--fg); }
+.nb-footer .sep { color: var(--jp-border-color1); }
+.nb-footer .shortcuts-hint { color: var(--jp-ui-font-color3); }
+.nb-footer .status-busy { color: var(--jp-warn-color1); }
+.nb-footer .status-error { color: var(--jp-error-color1); }
+.nb-footer .status-ok { color: var(--jp-ui-font-color1); }
 .nb-footer kbd {
-  font: 400 10px var(--mono); color: var(--fg-muted); background: var(--bg-input);
-  border: 1px solid var(--border-strong); padding: 1px 4px; border-radius: 3px;
+  font: 400 10px var(--mono); color: var(--jp-ui-font-color2); background: var(--jp-layout-color2);
+  border: 1px solid var(--jp-border-color1); padding: 1px 4px; border-radius: 3px;
 }
 
 /* Scrollbars */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--fg-dim); }
+::-webkit-scrollbar-thumb { background: var(--jp-border-color1); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--jp-border-color2); }
 ::-webkit-scrollbar-track { background: transparent; }

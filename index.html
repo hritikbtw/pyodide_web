@@ -12,11 +12,13 @@
 <body>
   <header class="nb-header">
     <div class="header-left">
-      <div class="logo" title="Pyodide Notebook">
-        <svg viewBox="0 0 24 24" class="logo-icon" aria-hidden="true">
-          <circle cx="12" cy="12" r="3" fill="#da5b0b"/>
-          <ellipse cx="12" cy="12" rx="10" ry="4.5" fill="none" stroke="#da5b0b" stroke-width="1.6" transform="rotate(-30 12 12)"/>
-          <ellipse cx="12" cy="12" rx="10" ry="4.5" fill="none" stroke="#767676" stroke-width="1.4" transform="rotate(30 12 12)"/>
+      <div class="logo" title="Project Jupyter">
+        <svg viewBox="0 0 44 51" class="logo-icon" aria-hidden="true">
+          <path fill="#767677" d="M39.5,3.5c0,0.6-0.1,1.2-0.4,1.7c-0.3,0.5-0.8,0.9-1.3,1.2c-0.5,0.3-1.1,0.4-1.7,0.3c-0.6-0.1-1.1-0.3-1.6-0.7C34,5.6,33.7,5,33.6,4.4c-0.1-0.6-0.1-1.2,0.1-1.8s0.6-1.1,1.1-1.4c0.5-0.4,1.1-0.6,1.7-0.6c0.4,0,0.8,0,1.2,0.2c0.4,0.1,0.7,0.3,1,0.6c0.3,0.3,0.5,0.6,0.7,0.9S39.5,3.1,39.5,3.5L39.5,3.5z"/>
+          <path fill="#F37726" d="M21.9,38.4c-8,0-15.1-2.9-18.7-7.1c1.4,3.8,4,7.1,7.3,9.4c3.3,2.3,7.3,3.6,11.4,3.6c4.1,0,8-1.2,11.4-3.6c3.3-2.3,5.9-5.6,7.3-9.4C37,35.5,30,38.4,21.9,38.4z"/>
+          <path fill="#F37726" d="M21.9,10.8c8,0,15.1,2.9,18.7,7.1c-1.4-3.8-4-7.1-7.3-9.4C30,6.1,26,4.9,21.9,4.9c-4.1,0-8,1.2-11.4,3.6c-3.3,2.3-5.9,5.6-7.3,9.4C6.9,13.6,13.9,10.8,21.9,10.8z"/>
+          <path fill="#9E9E9E" d="M10.9,46.7c0,0.8-0.1,1.5-0.5,2.2C10,49.5,9.4,50,8.7,50.3c-0.7,0.3-1.4,0.4-2.2,0.3c-0.7-0.1-1.4-0.4-2-0.9c-0.6-0.5-1-1.2-1.1-1.9c-0.2-0.7-0.1-1.5,0.1-2.2c0.3-0.7,0.7-1.3,1.3-1.8c0.6-0.4,1.3-0.7,2.1-0.7c0.5,0,1,0,1.5,0.2c0.5,0.2,0.9,0.4,1.3,0.8s0.7,0.7,0.9,1.2C10.7,45.7,10.8,46.2,10.9,46.7L10.9,46.7z"/>
+          <path fill="#616262" d="M4.1,9.8c-0.4,0-0.9-0.1-1.2-0.3c-0.4-0.2-0.7-0.6-0.8-1C1.9,8.1,1.8,7.7,1.9,7.3s0.3-0.8,0.6-1.1c0.3-0.3,0.7-0.5,1.1-0.6C4,5.4,4.4,5.4,4.8,5.6c0.4,0.2,0.8,0.4,1,0.8c0.3,0.3,0.4,0.8,0.4,1.2c0,0.6-0.2,1.2-0.6,1.6C5.3,9.5,4.7,9.8,4.1,9.8z"/>
         </svg>
       </div>
       <div class="title-wrap">
@@ -25,57 +27,61 @@
     </div>
 
     <div class="toolbar">
-      <div class="btn-group">
-        <button class="btn" id="btn-add-code" title="Insert code cell below (B)">
-          <svg class="i" viewBox="0 0 16 16"><path d="M8 2a.75.75 0 01.75.75v4.5h4.5a.75.75 0 010 1.5h-4.5v4.5a.75.75 0 01-1.5 0v-4.5h-4.5a.75.75 0 010-1.5h4.5v-4.5A.75.75 0 018 2z"/></svg>
-          Code
-        </button>
-        <button class="btn" id="btn-add-md" title="Insert markdown cell below (M)">
-          <svg class="i" viewBox="0 0 16 16"><path d="M8 2a.75.75 0 01.75.75v4.5h4.5a.75.75 0 010 1.5h-4.5v4.5a.75.75 0 01-1.5 0v-4.5h-4.5a.75.75 0 010-1.5h4.5v-4.5A.75.75 0 018 2z"/></svg>
-          Markdown
-        </button>
+      <!-- Save / Export -->
+      <button class="btn icon" id="btn-export" title="Save and Export (.ipynb)">
+        <svg class="i" viewBox="0 0 24 24"><path d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V7zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3m3-10H5V5h10z"/></svg>
+      </button>
+
+      <!-- Insert cell below -->
+      <button class="btn icon" id="btn-add-code" title="Insert cell below (B)">
+        <svg class="i" viewBox="0 0 16 16"><path d="m13 8.8h-4v4h-1.6v-4h-4v-1.6h4v-4h1.6v4h4z"/></svg>
+      </button>
+
+      <div class="sep-v"></div>
+
+      <!-- Run cell -->
+      <button class="btn icon primary-run" id="btn-run" title="Run cell and advance (Shift+Enter)">
+        <svg class="i" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+
+      <!-- Restart kernel -->
+      <button class="btn icon" id="btn-restart" title="Restart Python kernel">
+        <svg class="i" viewBox="0 0 18 18"><path d="M9 13.5c-2.49 0-4.5-2.01-4.5-4.5S6.51 4.5 9 4.5c1.24 0 2.36.52 3.17 1.33L10 8h5V3l-1.76 1.76A6 6 0 0 0 9 3C5.69 3 3.01 5.69 3.01 9S5.69 15 9 15a5.98 5.98 0 0 0 5.9-5h-1.52c-.46 2-2.24 3.5-4.38 3.5"/></svg>
+      </button>
+
+      <!-- Fast-Forward / Run all -->
+      <button class="btn icon" id="btn-run-all" title="Restart & Run all cells">
+        <svg class="i" viewBox="0 0 24 24"><path d="m4 18 8.5-6L4 6zm9-12v12l8.5-6z"/></svg>
+      </button>
+
+      <div class="sep-v"></div>
+
+      <!-- Cell type selector (JupyterLab style toolbar dropdown) -->
+      <div class="select-wrap">
+        <select class="jp-toolbar-select" id="toolbar-cell-type" title="Change cell type">
+          <option value="code">Code</option>
+          <option value="markdown">Markdown</option>
+        </select>
       </div>
 
       <div class="sep-v"></div>
 
-      <div class="btn-group">
-        <button class="btn primary" id="btn-run" title="Run cell and advance (Shift+Enter)">
-          <svg class="i" viewBox="0 0 16 16"><path d="M3.78 2L3 2.41v12l.78.42 9-6V8l-9-6zM4 13.48V3.35l7.6 5.07L4 13.48z"/></svg>
-          Run
-        </button>
-        <button class="btn" id="btn-run-all" title="Run all cells in notebook">
-          <svg class="i" viewBox="0 0 16 16"><path d="M2.78 2L2 2.41v12l.78.42 6-4V10l-6-4zm7 0L9 2.41v12l.78.42 6-4V10l-6-4z"/></svg>
-          Run All
-        </button>
-        <button class="btn icon" id="btn-restart" title="Restart Python kernel" aria-label="Restart Python kernel">
-          <svg class="i" viewBox="0 0 16 16"><path d="M12.75 8a4.5 4.5 0 01-8.61 1.834l-1.391.565A6.001 6.001 0 0014.25 8 6 6 0 003.5 4.334V2.5H2v4l.75.75h3.5v-1.5H4.352A4.5 4.5 0 0112.75 8z"/></svg>
-        </button>
-        <button class="btn icon" id="btn-clear-all" title="Clear all outputs" aria-label="Clear all outputs">
-          <svg class="i" viewBox="0 0 16 16"><path d="M8 8.707l3.646 3.647.708-.707L8.707 8l3.647-3.646-.707-.708L8 7.293 4.354 3.646l-.707.708L7.293 8l-3.646 3.646.707.708L8 8.707z"/></svg>
-        </button>
-      </div>
+      <!-- Open .ipynb -->
+      <button class="btn icon" id="btn-open" title="Open .ipynb notebook file">
+        <svg class="i" viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
+      </button>
 
-      <div class="sep-v"></div>
+      <!-- Clear outputs -->
+      <button class="btn icon" id="btn-clear-all" title="Clear all outputs">
+        <svg class="i" viewBox="0 0 24 24"><path d="M4.929 6.343 6.343 4.93l12.728 12.728-1.414 1.414z"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
 
-      <div class="btn-group">
-        <button class="btn" id="btn-open" title="Open .ipynb notebook file">
-          <svg class="i" viewBox="0 0 16 16"><path d="M1.75 2.5h4.5l1.5 1.5h6.5c.414 0 .75.336.75.75v8.5a.75.75 0 01-.75.75H1.75a.75.75 0 01-.75-.75v-10a.75.75 0 01.75-.75zm0 2.25v7.75h12.5V4.75H7.439l-1.5-1.5H1.75v-.75z"/></svg>
-          Open
-        </button>
-        <button class="btn" id="btn-export" title="Export as Jupyter Notebook (.ipynb)">
-          <svg class="i" viewBox="0 0 16 16"><path d="M8 12l-4-4h2.5V2h3v6H12L8 12zm-6 2h12v1.5H2V14z"/></svg>
-          Export
-        </button>
-      </div>
+      <!-- Install Packages -->
+      <button class="btn icon" id="install-open" title="Install Python packages" aria-label="Install packages">
+        <svg class="i" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7zM5 18v2h14v-2z"/></svg>
+      </button>
 
-      <div class="sep-v"></div>
-
-      <div class="btn-group">
-        <button class="btn icon" id="install-open" title="Install Python packages" aria-label="Install packages">
-          <svg class="i" viewBox="0 0 16 16"><path d="M11.957 6h.05a2.99 2.99 0 012.116.879 3.003 3.003 0 010 4.242 2.99 2.99 0 01-2.117.879v-1a2.002 2.002 0 000-4h-.914l-.123-.857a2.49 2.49 0 00-2.126-2.122A2.478 2.478 0 006.231 5.5l-.333.762-.809-.189A2.49 2.49 0 004.523 6c-.662 0-1.297.263-1.764.732A2.503 2.503 0 004.523 11h.498v1h-.498a3.486 3.486 0 01-2.628-1.16 3.502 3.502 0 011.958-5.78 3.462 3.462 0 011.468.04 3.486 3.486 0 013.657-2.06A3.479 3.479 0 0111.957 6zm-5.25 5.121l1.314 1.314V7h.994v5.4l1.278-1.279.707.707-2.146 2.147h-.708L6 11.829l.707-.708z"/></svg>
-        </button>
-      </div>
-
+      <!-- Install popover -->
       <div class="popover" id="install-pop" hidden>
         <div class="pop-title">Install Python Packages</div>
         <div class="pop-row">
@@ -89,7 +95,7 @@
           </label>
         </div>
         <div class="pop-hint">
-          Wheels are downloaded from Pyodide CDN or PyPI (via micropip). They run client-side in WebAssembly.
+          Packages are compiled for WebAssembly and run client-side via Pyodide/micropip.
         </div>
       </div>
     </div>
@@ -99,7 +105,7 @@
 
   <main class="nb-main" id="notebook-main">
     <div class="nb-canvas" id="notebook">
-      <!-- Cells will be dynamically rendered here -->
+      <!-- Cells rendered dynamically -->
     </div>
     <div class="nb-bottom-adder">
       <button class="btn round-btn" id="bottom-add-code">+ Code</button>
@@ -108,7 +114,7 @@
   </main>
 
   <footer class="nb-footer">
-    <span id="foot-status">Pyodide: Ready</span>
+    <span id="foot-status">Pyodide Ready</span>
     <span class="sep">·</span>
     <span id="foot-python">Python 3.13.2</span>
     <span class="sep">·</span>

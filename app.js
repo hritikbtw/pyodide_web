@@ -355,6 +355,38 @@ function createCellEditor(host, initialValue, cellId) {
     { tag: [tags.meta, tags.annotation, tags.modifier], color: "var(--syn-decorator)" },
   ]);
 
+  const cmTheme = EditorView.theme({
+    "&": {
+      height: "100%",
+    },
+    ".cm-cursor, .cm-dropCursor": {
+      borderLeftColor: "var(--jp-brand-color1) !important",
+    },
+    ".cm-tooltip": {
+      backgroundColor: "var(--jp-layout-color1) !important",
+      color: "var(--jp-ui-font-color0) !important",
+      border: "1px solid var(--jp-border-color1) !important",
+      borderRadius: "4px !important",
+      boxShadow: "var(--shadow) !important",
+    },
+    ".cm-tooltip.cm-tooltip-autocomplete": {
+      "& > ul": {
+        backgroundColor: "var(--jp-layout-color1) !important",
+        color: "var(--jp-ui-font-color0) !important",
+      },
+      "& > ul > li": {
+        color: "var(--jp-ui-font-color1) !important",
+      },
+      "& > ul > li[aria-selected]": {
+        backgroundColor: "var(--jp-brand-color1) !important",
+        color: "#ffffff !important",
+      },
+      "& > ul > li:hover": {
+        backgroundColor: "var(--jp-layout-color2) !important",
+      },
+    },
+  });
+
   const cellKeymap = keymap.of([
     indentWithTab,
     {
@@ -366,6 +398,13 @@ function createCellEditor(host, initialValue, cellId) {
     },
     {
       key: "Mod-Enter",
+      run: () => {
+        runCell(cellId);
+        return true;
+      },
+    },
+    {
+      key: "Ctrl-Enter",
       run: () => {
         runCell(cellId);
         return true;
@@ -394,6 +433,7 @@ function createCellEditor(host, initialValue, cellId) {
         basicSetup,
         python(),
         indentUnit.of("    "),
+        cmTheme,
         syntaxHighlighting(highlightStyle),
         cellKeymap,
         EditorView.updateListener.of((update) => {
@@ -442,6 +482,10 @@ function setActiveCell(id) {
   document.querySelectorAll(".cell").forEach(el => {
     el.classList.toggle("active", el.dataset.id === id);
   });
+  const cell = getCell(id);
+  if (cell && els.toolbarCellType) {
+    els.toolbarCellType.value = cell.type;
+  }
 }
 
 function updateCellCounts() {
@@ -458,42 +502,40 @@ function renderCellElement(cell) {
   toolbar.className = "cell-toolbar";
 
   const runBtn = document.createElement("button");
-  runBtn.className = "btn";
+  runBtn.className = "toolbar-btn";
   runBtn.title = "Run cell (Shift+Enter)";
-  runBtn.innerHTML = '<svg class="i" viewBox="0 0 16 16"><path d="M4 13.48V3.35l7.6 5.07L4 13.48z"/></svg>';
+  runBtn.innerHTML = '<svg class="i" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
   runBtn.onclick = (e) => { e.stopPropagation(); runCell(cell.id); };
   toolbar.appendChild(runBtn);
 
-  const typeSelect = document.createElement("select");
-  typeSelect.className = "type-select";
-  typeSelect.innerHTML = `
-    <option value="code" ${cell.type === "code" ? "selected" : ""}>Code</option>
-    <option value="markdown" ${cell.type === "markdown" ? "selected" : ""}>Markdown</option>
-  `;
-  typeSelect.onchange = (e) => {
+  const typeBtn = document.createElement("button");
+  typeBtn.className = "type-pill";
+  typeBtn.textContent = cell.type === "code" ? "Code" : "Markdown";
+  typeBtn.title = "Click to switch between Code and Markdown (M / Y)";
+  typeBtn.onclick = (e) => {
     e.stopPropagation();
-    switchCellType(cell.id, typeSelect.value);
+    switchCellType(cell.id, cell.type === "code" ? "markdown" : "code");
   };
-  toolbar.appendChild(typeSelect);
+  toolbar.appendChild(typeBtn);
 
   const upBtn = document.createElement("button");
-  upBtn.className = "btn";
+  upBtn.className = "toolbar-btn";
   upBtn.title = "Move cell up";
-  upBtn.innerHTML = '<svg class="i" viewBox="0 0 16 16"><path d="M8 4l-4 4h8L8 4z"/></svg>';
+  upBtn.innerHTML = '<svg class="i" viewBox="0 0 14 14"><path d="M1.529 6.471a.748.748 0 0 0 1.057 1.058L6.25 3.873v8.377a.75.75 0 0 0 1.5 0V3.873l3.653 3.659a.753.753 0 1 0 1.065-1.064l-4.76-4.76a1 1 0 0 0-1.415 0z"/></svg>';
   upBtn.onclick = (e) => { e.stopPropagation(); moveCell(cell.id, -1); };
   toolbar.appendChild(upBtn);
 
   const downBtn = document.createElement("button");
-  downBtn.className = "btn";
+  downBtn.className = "toolbar-btn";
   downBtn.title = "Move cell down";
-  downBtn.innerHTML = '<svg class="i" viewBox="0 0 16 16"><path d="M8 12l4-4H4l4 4z"/></svg>';
+  downBtn.innerHTML = '<svg class="i" viewBox="0 0 14 14"><path d="M12.471 7.529a.748.748 0 0 0-1.057-1.058L7.75 10.127V1.75a.75.75 0 0 0-1.5 0v8.378l-3.653-3.66a.753.753 0 1 0-1.065 1.064l4.76 4.76a1 1 0 0 0 1.415 0z"/></svg>';
   downBtn.onclick = (e) => { e.stopPropagation(); moveCell(cell.id, 1); };
   toolbar.appendChild(downBtn);
 
   const delBtn = document.createElement("button");
-  delBtn.className = "btn";
-  delBtn.title = "Delete cell";
-  delBtn.innerHTML = '<svg class="i" viewBox="0 0 16 16"><path d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"/></svg>';
+  delBtn.className = "toolbar-btn del-btn";
+  delBtn.title = "Delete cell (D, D)";
+  delBtn.innerHTML = '<svg class="i" viewBox="0 0 16 16"><path d="m4 13c0 0.7 0.6 1.3 1.3 1.3h5.4c0.7 0 1.3-0.6 1.3-1.3v-8h-8zm8.6-10h-2.2l-0.7-0.7h-3.4l-0.7 0.7h-2.2l1e-7 1.3h9.2z"/></svg>';
   delBtn.onclick = (e) => { e.stopPropagation(); deleteCell(cell.id); };
   toolbar.appendChild(delBtn);
 
@@ -1202,34 +1244,53 @@ function init() {
   }
 
   // Header toolbar
-  els.btnAddCode.onclick = () => insertCellBelow(state.activeCellId, "code");
-  els.btnAddMd.onclick = () => insertCellBelow(state.activeCellId, "markdown");
-  els.bottomAddCode.onclick = () => insertCellBelow(null, "code");
-  els.bottomAddMd.onclick = () => insertCellBelow(null, "markdown");
+  if (els.btnAddCode) {
+    els.btnAddCode.onclick = () => {
+      const type = (els.toolbarCellType && els.toolbarCellType.value) || "code";
+      insertCellBelow(state.activeCellId, type);
+    };
+  }
+  if (els.btnAddMd) els.btnAddMd.onclick = () => insertCellBelow(state.activeCellId, "markdown");
+  if (els.bottomAddCode) els.bottomAddCode.onclick = () => insertCellBelow(null, "code");
+  if (els.bottomAddMd) els.bottomAddMd.onclick = () => insertCellBelow(null, "markdown");
 
-  els.btnRun.onclick = () => {
-    if (state.activeCellId) runCellAndAdvance(state.activeCellId);
-  };
-  els.btnRunAll.onclick = runAllCells;
+  if (els.btnRun) {
+    els.btnRun.onclick = () => {
+      if (state.activeCellId) runCellAndAdvance(state.activeCellId);
+    };
+  }
+  if (els.btnRunAll) els.btnRunAll.onclick = runAllCells;
 
-  els.btnRestart.onclick = () => {
-    state.pyodide = null;
-    state.booting = null;
-    state.executionCounter = 0;
-    setKernelStatus("Kernel restarted", "ok");
-    setTimeout(() => setKernelStatus("Pyodide Idle", ""), 1500);
-  };
+  els.toolbarCellType = document.getElementById("toolbar-cell-type");
+  if (els.toolbarCellType) {
+    els.toolbarCellType.onchange = () => {
+      if (state.activeCellId) {
+        switchCellType(state.activeCellId, els.toolbarCellType.value);
+      }
+    };
+  }
 
-  els.btnClearAll.onclick = clearAllOutputs;
+  if (els.btnRestart) {
+    els.btnRestart.onclick = () => {
+      state.pyodide = null;
+      state.booting = null;
+      state.executionCounter = 0;
+      setKernelStatus("Kernel restarted", "ok");
+      setTimeout(() => setKernelStatus("Pyodide Idle", ""), 1500);
+    };
+  }
 
-  els.btnExport.onclick = exportIpynb;
+  if (els.btnClearAll) els.btnClearAll.onclick = clearAllOutputs;
+  if (els.btnExport) els.btnExport.onclick = exportIpynb;
 
-  els.btnOpen.onclick = () => els.fileInput.click();
-  els.fileInput.onchange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      importIpynb(e.target.files[0]);
-    }
-  };
+  if (els.btnOpen) els.btnOpen.onclick = () => els.fileInput.click();
+  if (els.fileInput) {
+    els.fileInput.onchange = (e) => {
+      if (e.target.files && e.target.files[0]) {
+        importIpynb(e.target.files[0]);
+      }
+    };
+  }
 
   // Drag and drop .ipynb file onto notebook
   window.addEventListener("dragover", (e) => e.preventDefault());
@@ -1276,58 +1337,96 @@ function init() {
   els.title.oninput = debounceSave;
   els.autoInstall.onchange = debounceSave;
 
-  // Global notebook shortcuts in command mode
-  document.addEventListener("keydown", (e) => {
-    if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA" ||
-        document.activeElement.classList.contains("cm-content")) {
+  // Global notebook shortcuts (Capture mode ensures reliable execution)
+  window.addEventListener("keydown", (e) => {
+    // 1. Run cell shortcuts (Shift+Enter, Ctrl+Enter, Alt+Enter)
+    if (e.key === "Enter" && e.shiftKey) {
+      e.preventDefault();
+      e.stopPropagation();
+      const targetId = state.activeCellId || (state.cells[0] && state.cells[0].id);
+      if (targetId) runCellAndAdvance(targetId);
       return;
     }
 
-    if (e.key === "a" || e.key === "A") {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
-      const idx = state.activeCellId ? getCellIndex(state.activeCellId) : 0;
-      const targetId = idx > 0 ? state.cells[idx - 1].id : null;
-      insertCellBelow(targetId, "code");
-    } else if (e.key === "b" || e.key === "B") {
+      e.stopPropagation();
+      const targetId = state.activeCellId || (state.cells[0] && state.cells[0].id);
+      if (targetId) runCell(targetId);
+      return;
+    }
+
+    if (e.key === "Enter" && e.altKey) {
       e.preventDefault();
-      insertCellBelow(state.activeCellId, "code");
-    } else if (e.key === "m" || e.key === "M") {
-      e.preventDefault();
-      if (state.activeCellId) switchCellType(state.activeCellId, "markdown");
-    } else if (e.key === "y" || e.key === "Y") {
-      e.preventDefault();
-      if (state.activeCellId) switchCellType(state.activeCellId, "code");
-    } else if (e.key === "d" && e.repeat === false) {
-      // Double d to delete
-      if (window.__dPressed) {
-        clearTimeout(window.__dPressedTimer);
-        window.__dPressed = false;
-        if (state.activeCellId) deleteCell(state.activeCellId);
-      } else {
-        window.__dPressed = true;
-        window.__dPressedTimer = setTimeout(() => { window.__dPressed = false; }, 400);
+      e.stopPropagation();
+      const targetId = state.activeCellId || (state.cells[0] && state.cells[0].id);
+      if (targetId) {
+        runCell(targetId).then(() => insertCellBelow(targetId, "code"));
       }
-    } else if (e.key === "Enter") {
+      return;
+    }
+
+    const isEditing = document.activeElement && (
+      document.activeElement.tagName === "INPUT" ||
+      document.activeElement.tagName === "TEXTAREA" ||
+      document.activeElement.isContentEditable ||
+      document.activeElement.classList.contains("cm-content")
+    );
+
+    // 2. Escape: exit editing to command mode
+    if (e.key === "Escape") {
+      if (isEditing) {
+        document.activeElement.blur();
+        e.preventDefault();
+      }
+      return;
+    }
+
+    if (isEditing) return;
+
+    // 3. Command mode shortcuts (when NOT typing inside an editor or input)
+    if (e.key === "Enter") {
       e.preventDefault();
       const cell = getCell(state.activeCellId);
       if (cell) {
         if (cell.type === "markdown") editMarkdownCell(cell.id);
         else if (cell.editor) cell.editor.focus();
       }
-    } else if (e.key === "ArrowUp") {
+    } else if (e.key === "b" || e.key === "B") {
+      e.preventDefault();
+      insertCellBelow(state.activeCellId, "code");
+    } else if (e.key === "a" || e.key === "A") {
+      e.preventDefault();
+      const idx = state.activeCellId ? getCellIndex(state.activeCellId) : 0;
+      const targetId = idx > 0 ? state.cells[idx - 1].id : null;
+      insertCellBelow(targetId, "code");
+    } else if (e.key === "m" || e.key === "M") {
+      e.preventDefault();
+      if (state.activeCellId) switchCellType(state.activeCellId, "markdown");
+    } else if (e.key === "y" || e.key === "Y") {
+      e.preventDefault();
+      if (state.activeCellId) switchCellType(state.activeCellId, "code");
+    } else if (e.key === "d" || e.key === "D") {
+      if (!e.repeat) {
+        if (window.__dPressed) {
+          clearTimeout(window.__dPressedTimer);
+          window.__dPressed = false;
+          if (state.activeCellId) deleteCell(state.activeCellId);
+        } else {
+          window.__dPressed = true;
+          window.__dPressedTimer = setTimeout(() => { window.__dPressed = false; }, 450);
+        }
+      }
+    } else if (e.key === "ArrowUp" || e.key === "k") {
       e.preventDefault();
       const idx = getCellIndex(state.activeCellId);
-      if (idx > 0) {
-        setActiveCell(state.cells[idx - 1].id);
-      }
-    } else if (e.key === "ArrowDown") {
+      if (idx > 0) setActiveCell(state.cells[idx - 1].id);
+    } else if (e.key === "ArrowDown" || e.key === "j") {
       e.preventDefault();
       const idx = getCellIndex(state.activeCellId);
-      if (idx >= 0 && idx < state.cells.length - 1) {
-        setActiveCell(state.cells[idx + 1].id);
-      }
+      if (idx >= 0 && idx < state.cells.length - 1) setActiveCell(state.cells[idx + 1].id);
     }
-  });
+  }, true);
 
   // Pre-boot Pyodide quietly in the background
   bootPyodide().catch(() => {});
