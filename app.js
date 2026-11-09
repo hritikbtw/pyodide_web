@@ -6,7 +6,7 @@
 
 const PYODIDE_VERSION = "0.29.5";
 const PYODIDE_BASE = `https://cdn.jsdelivr.net/pyodide/v${PYODIDE_VERSION}/full/`;
-const STORAGE_KEY = "pyodide-notebook.v1";
+const STORAGE_KEY = "pyodide-notebook.v2";
 
 const state = {
   pyodide: null,
@@ -15,7 +15,7 @@ const state = {
   executionCounter: 0,
   activeCellId: null,
   cells: [],
-  title: "playground.ipynb",
+  title: "Untitled.ipynb",
   autoInstall: true,
 };
 
@@ -23,6 +23,7 @@ const els = {
   title: document.getElementById("nb-title"),
   notebook: document.getElementById("notebook"),
   main: document.getElementById("notebook-main"),
+  btnNew: document.getElementById("btn-new"),
   btnAddCode: document.getElementById("btn-add-code"),
   btnAddMd: document.getElementById("btn-add-md"),
   btnRun: document.getElementById("btn-run"),
@@ -1164,66 +1165,14 @@ function restoreNotebook() {
     return;
   }
 
-  // Preloaded Starter Notebook
+  // Blank Slate: Single empty code cell
+  state.title = "Untitled.ipynb";
+  els.title.value = "Untitled.ipynb";
   state.cells = [
     {
       id: "cell-1",
-      type: "markdown",
-      source: `# Pyodide Jupyter Notebook\n\nA full client-side Jupyter notebook environment running **Python 3.13** via **Pyodide** and WebAssembly. No servers, no installation.\n\n### Keyboard Shortcuts\n| Action | Shortcut |\n| :--- | :--- |\n| Run Cell & Advance | <kbd>Shift</kbd> + <kbd>Enter</kbd> |\n| Run Cell in Place | <kbd>Ctrl</kbd> + <kbd>Enter</kbd> |\n| Run & Insert Below | <kbd>Alt</kbd> + <kbd>Enter</kbd> |\n| Command Mode | <kbd>Esc</kbd> |\n| Toggle Comments | <kbd>Ctrl</kbd> + <kbd>/</kbd> |`,
-      executionCount: null,
-      outputs: [],
-      editing: false,
-      editor: null,
-    },
-    {
-      id: "cell-2",
       type: "code",
-      source: `import sys, platform\n\nprint("Python version:", sys.version.split()[0])\nprint("Architecture:  ", platform.machine() or "wasm32")\nprint("Platform:      ", platform.platform())`,
-      executionCount: null,
-      outputs: [],
-      editing: false,
-      editor: null,
-    },
-    {
-      id: "cell-3",
-      type: "code",
-      source: `# Variables and expressions\n# The value of the last expression in a cell displays automatically (Out [n])\n\nsquares = [n**2 for n in range(1, 11)]\nprint("List of squares computed:")\nsquares`,
-      executionCount: null,
-      outputs: [],
-      editing: false,
-      editor: null,
-    },
-    {
-      id: "cell-4",
-      type: "markdown",
-      source: `## Data Visualization with Matplotlib\n\nMatplotlib figures are automatically captured and rendered directly inside the notebook output area!`,
-      executionCount: null,
-      outputs: [],
-      editing: false,
-      editor: null,
-    },
-    {
-      id: "cell-5",
-      type: "code",
-      source: `import numpy as np\nimport matplotlib.pyplot as plt\n\nx = np.linspace(0, 4 * np.pi, 300)\ny1 = np.sin(x)\ny2 = np.cos(x)\n\nfig, ax = plt.subplots(figsize=(7, 3), dpi=120)\nax.plot(x, y1, label="sin(x)", color="#0078d4", linewidth=2)\nax.plot(x, y2, label="cos(x)", color="#e36209", linewidth=2, linestyle="--")\nax.set_title("Trigonometric Functions in Pyodide", fontsize=11)\nax.grid(True, alpha=0.3)\nax.legend()\nplt.show()`,
-      executionCount: null,
-      outputs: [],
-      editing: false,
-      editor: null,
-    },
-    {
-      id: "cell-6",
-      type: "markdown",
-      source: `## Persistent Kernel State\n\nVariables defined in earlier cells persist across runs. For example, we can access the \`squares\` variable defined above:`,
-      executionCount: null,
-      outputs: [],
-      editing: false,
-      editor: null,
-    },
-    {
-      id: "cell-7",
-      type: "code",
-      source: `total = sum(squares)\naverage = total / len(squares)\n\nprint(f"Total sum: {total}")\nprint(f"Average:   {average:.2f}")\n\n{"total": total, "average": round(average, 2)}`,
+      source: "",
       executionCount: null,
       outputs: [],
       editing: false,
@@ -1241,6 +1190,9 @@ function init() {
 
   if (state.cells.length > 0) {
     setActiveCell(state.cells[0].id);
+    if (state.cells[0].editor) {
+      state.cells[0].editor.focus();
+    }
   }
 
   // Header toolbar
@@ -1282,6 +1234,19 @@ function init() {
 
   if (els.btnClearAll) els.btnClearAll.onclick = clearAllOutputs;
   if (els.btnExport) els.btnExport.onclick = exportIpynb;
+
+  if (els.btnNew) {
+    els.btnNew.onclick = () => {
+      if (confirm("Start a new blank notebook? Current unsaved cells will be reset.")) {
+        localStorage.removeItem(STORAGE_KEY);
+        restoreNotebook();
+        renderNotebook();
+        if (state.cells[0] && state.cells[0].editor) {
+          state.cells[0].editor.focus();
+        }
+      }
+    };
+  }
 
   if (els.btnOpen) els.btnOpen.onclick = () => els.fileInput.click();
   if (els.fileInput) {
